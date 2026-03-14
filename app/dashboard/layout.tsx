@@ -1,10 +1,6 @@
 
 
 
-
-
-
-
 "use client"
 
 import { useRouter } from "next/navigation"
@@ -16,10 +12,10 @@ import { AppSidebar } from "@/app/components/app-sidebar"
 import { Separator } from "@/app/components/ui/separator"
 
 import {
-DropdownMenu,
-DropdownMenuTrigger,
-DropdownMenuContent,
-DropdownMenuItem
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem
 } from "@/app/components/ui/dropdown-menu"
 
 export default function DashboardLayout({
@@ -30,29 +26,42 @@ export default function DashboardLayout({
 
   const router = useRouter()
 
-  const [businessName,setBusinessName] = useState("Store")
-  const [mounted,setMounted] = useState(false)
+  const [businessName, setBusinessName] = useState("Store")
+  const [loading, setLoading] = useState(true)
+  const [authed, setAuthed] = useState(false)
 
-  useEffect(()=>{
-    setMounted(true)
-    loadBusiness()
-  },[])
+  useEffect(() => {
+    // Check token first
+    const token = localStorage.getItem("token")
 
-  const loadBusiness = async () => {
-
-    try{
-
-      const res = await fetch("/api/settings")
-      const data = await res.json()
-
-      if(data?.name){
-        setBusinessName(data.name)
-      }
-
-    }catch(err){
-      console.log(err)
+    if (!token) {
+      router.replace("/login")
+      return
     }
 
+    setAuthed(true)
+
+    // Then load business name
+    loadBusiness()
+
+    // 2 second minimum loader
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [router])
+
+  const loadBusiness = async () => {
+    try {
+      const res = await fetch("/api/settings")
+      const data = await res.json()
+      if (data?.name) {
+        setBusinessName(data.name)
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const logout = () => {
@@ -60,12 +69,27 @@ export default function DashboardLayout({
     router.push("/login")
   }
 
-  if(!mounted) return null
+  // Show loader for 2s (covers flash on all pages)
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex flex-col justify-center items-center gap-4 bg-background">
+        <div className="relative h-14 w-14">
+          <div className="absolute inset-0 rounded-full border-4 border-muted" />
+          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary animate-spin" />
+        </div>
+        <p className="text-sm text-muted-foreground animate-pulse">
+          Loading...
+        </p>
+      </div>
+    )
+  }
+
+  // Not authed — redirect in progress
+  if (!authed) return null
 
   const firstLetter = businessName.charAt(0).toUpperCase()
 
   return (
-
     <SidebarProvider>
 
       <AppSidebar />
@@ -87,28 +111,21 @@ export default function DashboardLayout({
           <DropdownMenu>
 
             <DropdownMenuTrigger asChild>
-
               <div className="flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 cursor-pointer">
-
                 <div className="size-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-medium">
                   {firstLetter}
                 </div>
-
                 <span className="text-sm font-medium text-secondary-foreground hidden sm:inline">
                   {businessName}
                 </span>
-
               </div>
-
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end">
-
               <DropdownMenuItem onClick={logout} className="cursor-pointer">
-                <LogOut className="w-4 h-4 mr-2"/>
+                <LogOut className="w-4 h-4 mr-2" />
                 Logout
               </DropdownMenuItem>
-
             </DropdownMenuContent>
 
           </DropdownMenu>
@@ -122,6 +139,5 @@ export default function DashboardLayout({
       </SidebarInset>
 
     </SidebarProvider>
-
   )
 }

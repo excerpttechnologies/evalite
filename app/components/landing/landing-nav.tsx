@@ -1,7 +1,9 @@
+
+
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Menu, X, Zap } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 
@@ -14,6 +16,12 @@ const navLinks = [
 
 export function LandingNav() {
   const [open, setOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    setIsLoggedIn(!!token)
+  }, [])
 
   return (
     <header className="fixed top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-md">
@@ -39,17 +47,28 @@ export function LandingNav() {
           ))}
         </nav>
 
+        {/* Desktop buttons */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="/login">
-            <Button variant="ghost" size="sm" className="text-sm">
-              Log in
-            </Button>
-          </Link>
-          <Link href="/dashboard">
-            <Button size="sm" className="text-sm font-semibold">
-              Start Free
-            </Button>
-          </Link>
+          {isLoggedIn ? (
+            <Link href="/dashboard">
+              <Button size="sm" className="text-sm font-semibold">
+                Go to Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <>
+              <Link href="/login">
+                <Button variant="ghost" size="sm" className="text-sm">
+                  Log in
+                </Button>
+              </Link>
+              <Link href="/dashboard">
+                <Button size="sm" className="text-sm font-semibold">
+                  Start Free
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         <button
@@ -61,6 +80,7 @@ export function LandingNav() {
         </button>
       </div>
 
+      {/* Mobile menu */}
       {open && (
         <div className="border-t border-border bg-background px-4 pb-4 pt-2 md:hidden">
           <nav className="flex flex-col gap-3">
@@ -74,11 +94,26 @@ export function LandingNav() {
                 {l.label}
               </a>
             ))}
-            <Link href="/dashboard" className="mt-2">
-              <Button size="sm" className="w-full text-sm font-semibold">
-                Start Free
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <Link href="/dashboard" className="mt-2">
+                <Button size="sm" className="w-full text-sm font-semibold">
+                  Go to Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className="mt-2">
+                  <Button variant="ghost" size="sm" className="w-full text-sm">
+                    Log in
+                  </Button>
+                </Link>
+                <Link href="/dashboard">
+                  <Button size="sm" className="w-full text-sm font-semibold">
+                    Start Free
+                  </Button>
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       )}

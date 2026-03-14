@@ -1,15 +1,81 @@
+// import { NextResponse } from "next/server"
+// import dbConnect from "@/app/lib/mongodb"
+// import Expense from "@/app/models/Expense"
+
+// export async function POST(req: Request) {
+
+//   try {
+
+//     await dbConnect()
+
+//     const body = await req.json()
+
+//     const { title, category, amount, date, note } = body
+
+//     const expense = await Expense.create({
+//       title,
+//       category,
+//       amount,
+//       date,
+//       note
+//     })
+
+//     return NextResponse.json(expense)
+
+//   } catch (error) {
+
+//     console.error(error)
+
+//     return NextResponse.json(
+//       { error: "Failed to create expense" },
+//       { status: 500 }
+//     )
+
+//   }
+
+// }
+
+// export async function GET() {
+
+//   try {
+
+//     await dbConnect()
+
+//     const expenses = await Expense.find()
+//       .sort({ date: -1 })
+
+//     return NextResponse.json(expenses)
+
+//   } catch (error) {
+
+//     console.error(error)
+
+//     return NextResponse.json(
+//       { error: "Failed to fetch expenses" },
+//       { status: 500 }
+//     )
+
+//   }
+
+// }
+
+
+
+
+//aravind
 import { NextResponse } from "next/server"
 import dbConnect from "@/app/lib/mongodb"
 import Expense from "@/app/models/Expense"
+import { getUserFromToken } from "@/app/lib/authMiddleware"
 
 export async function POST(req: Request) {
-
   try {
+    const auth = getUserFromToken(req)
+    if ("error" in auth) return auth.error
+    const userId = auth.user.id
 
     await dbConnect()
-
     const body = await req.json()
-
     const { title, category, amount, date, note } = body
 
     const expense = await Expense.create({
@@ -17,44 +83,32 @@ export async function POST(req: Request) {
       category,
       amount,
       date,
-      note
+      note,
+      userId // ✅ save with userId
     })
 
     return NextResponse.json(expense)
 
   } catch (error) {
-
     console.error(error)
-
-    return NextResponse.json(
-      { error: "Failed to create expense" },
-      { status: 500 }
-    )
-
+    return NextResponse.json({ error: "Failed to create expense" }, { status: 500 })
   }
-
 }
 
-export async function GET() {
-
+export async function GET(req: Request) {
   try {
+    const auth = getUserFromToken(req)
+    if ("error" in auth) return auth.error
+    const userId = auth.user.id
 
     await dbConnect()
-
-    const expenses = await Expense.find()
+    const expenses = await Expense.find({ userId }) // ✅ only this user's expenses
       .sort({ date: -1 })
 
     return NextResponse.json(expenses)
 
   } catch (error) {
-
     console.error(error)
-
-    return NextResponse.json(
-      { error: "Failed to fetch expenses" },
-      { status: 500 }
-    )
-
+    return NextResponse.json({ error: "Failed to fetch expenses" }, { status: 500 })
   }
-
 }

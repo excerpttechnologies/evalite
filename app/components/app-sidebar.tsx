@@ -13,6 +13,7 @@ import {
   BarChart3,
   Settings,
   Store,
+  Zap
 } from "lucide-react"
 import {
   Sidebar,
@@ -36,6 +37,8 @@ const menuItems = [
   { title: "Suppliers", url: "/dashboard/suppliers", icon: Truck },
   { title: "Expenses", url: "/dashboard/expenses", icon: Wallet },
   { title: "Reports", url: "/dashboard/reports", icon: BarChart3 },
+  { title: "Financial Year", url: "/dashboard/financial-year-report", icon: BarChart3 },
+  { title: "E-Way Bill", url: "/dashboard/ewaybill", icon: BarChart3 },
   { title: "Settings", url: "/dashboard/settings", icon: Settings },
 ]
 
@@ -45,12 +48,19 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="p-4">
-        <Link href="/dashboard" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Store className="size-4" />
+            <Zap className="size-4" />
           </div>
           <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
-            <span className="font-semibold text-sm">evaLite</span>
+
+            <span className="font-black text-sm tracking-tight">
+              Eva<span className="text-primary font-light italic">lite</span>
+            </span>
+
+
+
+
             <span className="text-xs text-sidebar-foreground/60">Business Manager</span>
           </div>
         </Link>
