@@ -190,7 +190,7 @@ export function LandingNav() {
                       ? "text-[#F2A119]" 
                       : scrolled 
                         ? "text-gray-700 group-hover:text-gray-900" 
-                        : "text-gray-500 group-hover:text-white"
+                        : "text-gray-500 group-hover:text-zinc-500"
                   }`}>
                     <link.icon className="size-3.5" />
                     {link.label}

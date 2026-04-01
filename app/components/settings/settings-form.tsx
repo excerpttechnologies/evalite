@@ -480,7 +480,7 @@ export function SettingsForm() {
     try {
       const res = await authFetch("/api/settings")
       const data = await res.json()
-
+     
       setSettings({
         name: data?.name || "",
         gst: data?.gst || "",

@@ -658,6 +658,7 @@ import { Label } from "@/app/components/ui/label"
 import { HiOutlineMail, HiOutlineLockClosed, HiArrowRight, HiOutlineChip } from "react-icons/hi"
 import { TbInvoice, TbReportAnalytics, TbBuildingWarehouse } from "react-icons/tb"
 import { RiShieldKeyholeLine } from "react-icons/ri"
+import toast from "react-hot-toast"
 
 export default function LoginForm() {
   const router = useRouter()
@@ -679,7 +680,7 @@ export default function LoginForm() {
       const data = await res.json()
       if (!res.ok) { alert(data.error); setIsLoading(false); return }
       localStorage.setItem("token", data.token)
-      alert("Login successful")
+      toast("Login successful")
       router.push("/dashboard")
     } catch (error) {
       console.error(error)
@@ -971,13 +972,8 @@ export default function LoginForm() {
           <div className="top-bar">
             <div className="logo-row">
               <div className="logo-hex">
-                <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                  <circle cx="19" cy="19" r="17" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5" strokeDasharray="4 3"/>
-                </svg>
-                <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                  <circle cx="19" cy="19" r="12" stroke="rgba(234,88,12,0.3)" strokeWidth="1" strokeDasharray="2 4"/>
-                </svg>
-                <span className="logo-hex-inner"><HiOutlineChip/></span>
+                <img src="/icon.svg" className="h-32" alt="eva lite" />
+                {/* <span className="logo-hex-inner"><HiOutlineChip/></span> */}
               </div>
               <div>
                 <div className="logo-name">evaLite</div>
@@ -1080,7 +1076,7 @@ export default function LoginForm() {
               <div className="field">
                 <div className="pw-row">
                   <span className={`f-lbl${focused==="password"?" act":""}`} style={{marginBottom:0}}>Password</span>
-                  <Link href="/forgot-password" className="fgt">Reset access?</Link>
+                  {/* <Link href="/forgot-password" className="fgt">Reset access?</Link> */}
                 </div>
                 <div className="inp-wrap" style={{marginTop:"8px"}}>
                   <HiOutlineLockClosed className={`inp-icon${focused==="password"?" act":""}`}/>
@@ -1097,14 +1093,14 @@ export default function LoginForm() {
               </button>
             </form>
 
-            <div className="divider"><div className="dline"/><span className="dtxt">No account yet?</span><div className="dline"/></div>
+            {/* <div className="divider"><div className="dline"/><span className="dtxt">No account yet?</span><div className="dline"/></div>
             <Link href="/register" className="reg-btn">Request Access →</Link>
 
             <div className="trust-row">
               <div className="t-item"><RiShieldKeyholeLine/>256-bit SSL</div>
               <div className="t-item"><TbReportAnalytics/>SOC 2</div>
               <div className="t-item"><TbBuildingWarehouse/>On-premise ready</div>
-            </div>
+            </div> */}
           </div>
 
           <div className="ver-tag">evaLite ERP v3.2.1 · Enterprise Edition</div>

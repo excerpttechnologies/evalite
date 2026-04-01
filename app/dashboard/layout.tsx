@@ -17,6 +17,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem
 } from "@/app/components/ui/dropdown-menu"
+import { authFetch } from "../lib/authFetch"
+import { motion } from "framer-motion";
+
 
 export default function DashboardLayout({
   children,
@@ -29,6 +32,10 @@ export default function DashboardLayout({
   const [businessName, setBusinessName] = useState("Store")
   const [loading, setLoading] = useState(true)
   const [authed, setAuthed] = useState(false)
+
+
+
+
 
   useEffect(() => {
     // Check token first
@@ -52,17 +59,23 @@ export default function DashboardLayout({
     return () => clearTimeout(timer)
   }, [router])
 
-  const loadBusiness = async () => {
-    try {
-      const res = await fetch("/api/settings")
-      const data = await res.json()
-      if (data?.name) {
-        setBusinessName(data.name)
-      }
-    } catch (err) {
-      console.log(err)
+  
+
+const loadBusiness = async () => {
+  try {
+    const res = await authFetch("/api/settings")
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch settings")
     }
+
+    const data = await res.json()
+ 
+    setBusinessName(data?.name || "")
+  } catch (err) {
+    console.error("Error loading business:", err)
   }
+}
 
   const logout = () => {
     localStorage.removeItem("token")
@@ -70,20 +83,62 @@ export default function DashboardLayout({
   }
 
   // Show loader for 2s (covers flash on all pages)
-  if (loading) {
-    return (
-      <div className="h-screen w-full flex flex-col justify-center items-center gap-4 bg-background">
-        <div className="relative h-14 w-14">
-          <div className="absolute inset-0 rounded-full border-4 border-muted" />
-          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary animate-spin" />
-        </div>
-        <p className="text-sm text-muted-foreground animate-pulse">
-          Loading...
-        </p>
+ if (loading) {
+  return (
+    <div className="h-screen w-full flex flex-col justify-center items-center gap-6 bg-background">
+      <div className="flex gap-2">
+        {[...Array(3)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="w-3 h-3 bg-primary rounded-sm"
+            animate={{
+              y: [0, -12, 0],
+              rotate: [0, 45, 0],
+              borderRadius: ["2px", "4px", "2px"],
+            }}
+            transition={{
+              duration: 0.6,
+              repeat: Infinity,
+              delay: i * 0.15,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
       </div>
-    )
-  }
-
+      
+      <motion.div
+        className="flex gap-1 text-sm text-muted-foreground"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <motion.span
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 1.2, repeat: Infinity }}
+        >
+          Loading
+        </motion.span>
+        <motion.span
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity, delay: 0.2 }}
+        >
+          .
+        </motion.span>
+        <motion.span
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity, delay: 0.4 }}
+        >
+          .
+        </motion.span>
+        <motion.span
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity, delay: 0.6 }}
+        >
+          .
+        </motion.span>
+      </motion.div>
+    </div>
+  );
+}
   // Not authed — redirect in progress
   if (!authed) return null
 

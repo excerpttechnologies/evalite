@@ -852,16 +852,10 @@ export default function RegisterPage() {
           <div className="top-bar">
             <div className="logo-row">
               <div className="logo-hex">
-                <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                  <circle cx="19" cy="19" r="17" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5" strokeDasharray="4 3"/>
-                </svg>
-                <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                  <circle cx="19" cy="19" r="12" stroke="rgba(234,88,12,0.3)" strokeWidth="1" strokeDasharray="2 4"/>
-                </svg>
-                <span className="logo-hex-inner"><HiOutlineChip/></span>
+                 <img src="/icon.svg" className="h-32" alt="eva lite" />
               </div>
               <div>
-                <div className="logo-name">evaLite</div>
+                <div className="logo-name">EVALITE</div>
                 <div className="logo-sub">ERP Billing System</div>
               </div>
             </div>

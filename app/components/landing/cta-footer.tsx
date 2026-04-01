@@ -263,9 +263,9 @@ export function Footer() {
             {/* Contact Info - compact */}
             <div className="mt-4 space-y-1.5">
               {[
-                { icon: Mail, text: "support@evalite.com", delay: 0 },
-                { icon: Phone, text: "+91 1800 123 4567", delay: 0.1 },
-                { icon: MapPin, text: "Bengaluru, India", delay: 0.2 },
+                { icon: Mail, text: "info@excerptech.com", delay: 0 },
+                { icon: Phone, text: "+91 63646 57660 / 99013 71386", delay: 0.1 },
+                { icon: MapPin, text: "B133/1, 2nd Floor, KSSIDC ITI Estate,Whitefield Main Road, Mahadevapura,Bengaluru, Karnataka – 560048", delay: 0.2 },
               ].map((item, idx) => (
                 <motion.div 
                   key={idx}
@@ -281,7 +281,7 @@ export function Footer() {
             </div>
 
             {/* Social Links - compact */}
-            <div className="mt-4 flex gap-2">
+            {/* <div className="mt-4 flex gap-2">
               {socialLinks.map((social, idx) => (
                 <motion.a
                   key={social.label}
@@ -296,7 +296,7 @@ export function Footer() {
                   <social.icon className="size-3.5 text-gray-500 group-hover:text-[#F6D08F] transition-colors" />
                 </motion.a>
               ))}
-            </div>
+            </div> */}
           </motion.div>
 
           {/* Footer Links - compact */}
@@ -342,6 +342,10 @@ export function Footer() {
           <div className="text-[10px] text-gray-500">
             &copy; {new Date().getFullYear()} evaLite. All rights reserved.
           </div>
+
+          <a href="https://excerptech.com/" target="_blank"  className="text-[10px] text-gray-500">
+           Developed by <b>Excerpt Technology Pvt. Ltd.</b>
+          </a>
           
           <div className="flex items-center gap-3">
             <motion.div 

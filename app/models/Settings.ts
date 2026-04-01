@@ -26,7 +26,7 @@ import mongoose from "mongoose"
 
 const SettingsSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // ✅ added
-  businessName: String,
+  name: String,
   ownerName: String,
   phone: String,
   email: String,

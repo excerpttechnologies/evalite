@@ -76,7 +76,7 @@ export async function POST(req: Request) {
 
     await dbConnect()
     const body = await req.json()
-
+   
     // ✅ find settings only for this user
     let settings = await Settings.findOne({ userId })
 
