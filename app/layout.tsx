@@ -1,43 +1,80 @@
+// import type { Metadata } from 'next'
+// import { Inter, Geist_Mono } from 'next/font/google'
+// import { Analytics } from '@vercel/analytics/next'
+// import './globals.css'
+
+// const _inter = Inter({ subsets: ["latin"] });
+// const _geistMono = Geist_Mono({ subsets: ["latin"] });
+
+// export const metadata: Metadata = {
+//   title: 'evaLite - Smart Business Billing & Accounting',
+//   description: 'Modern billing, accounting, and inventory management for small businesses. Simplify your GST invoicing, track expenses, and grow with confidence.',
+//   generator: 'v0.app',
+  // icons: {
+  //   icon: [
+  //     {
+  //       url: '/icon-light-32x32.png',
+  //       media: '(prefers-color-scheme: light)',
+  //     },
+  //     {
+  //       url: '/icon-dark-32x32.png',
+  //       media: '(prefers-color-scheme: dark)',
+  //     },
+  //     {
+  //       url: '/icon.svg',
+  //       type: 'image/svg+xml',
+  //     },
+  //   ],
+//     apple: '/apple-icon.png',
+//   },
+// }
+
+// export default function RootLayout({
+//   children,
+// }: Readonly<{
+//   children: React.ReactNode
+// }>) {
+//   return (
+//     <html lang="en">
+//       <body suppressHydrationWarning  className="font-sans antialiased">
+//         {children}
+//         <Analytics />
+//       </body>
+//     </html>
+//   )
+// }
+
+
 import type { Metadata } from 'next'
-import { Inter, Geist_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+import {Toaster} from 'react-hot-toast'
 
-const _inter = Inter({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'evaLite - Smart Business Billing & Accounting',
-  description: 'Modern billing, accounting, and inventory management for small businesses. Simplify your GST invoicing, track expenses, and grow with confidence.',
-  generator: 'v0.app',
-  icons: {
+  title: 'EVA lite - Smart Business Billing & Accounting',
+  description: 'Modern billing, accounting, and inventory management for small businesses.',
+    icons: {
     icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
       {
         url: '/icon.svg',
         type: 'image/svg+xml',
       },
-    ],
-    apple: '/apple-icon.png',
-  },
+    ],}
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning  className="font-sans antialiased">
+      <body className={`${inter.className} font-sans antialiased`}>
         {children}
+           <Toaster position="top-right" />
         <Analytics />
       </body>
     </html>

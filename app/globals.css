@@ -135,3 +135,90 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* ///////////////////////////// */
+
+
+
+/* Add to your global.css or tailwind.css */
+
+/* Ensure proper z-index stacking */
+header {
+  z-index: 9999;
+}
+
+/* Smooth transitions */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure text is always readable */
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+.text-primary {
+  color: hsl(var(--primary));
+}
+
+/* Ensure background colors are visible */
+.bg-background {
+  background-color: hsl(var(--background));
+}
+
+.bg-accent {
+  background-color: hsl(var(--accent));
+}
+
+/* Button styles */
+button, a {
+  cursor: pointer;
+}
+
+/* Mobile menu backdrop */
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+}
+
+/* Ensure animations are visible */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@font-face {
+  font-family: "hero-font";
+  src: url("/fonts/Creepster-Regular.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "first";
+  src: url("/fonts/FasterOne-Regular.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "second";
+  src: url("/fonts/Nosifer-Regular.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "third";
+  src: url("/fonts/Jomhuria-Regular.ttf");
+  font-weight: 700;
+}
+
+*::-webkit-scrollbar{
+  display:none
+}

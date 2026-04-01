@@ -96,43 +96,48 @@ export default function DashboardLayout({
 
       <SidebarInset>
 
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-card px-4">
+       <header className="flex h-12 shrink-0 items-center gap-2 border-b bg-card px-4 shadow-sm">
+  <SidebarTrigger className="-ml-1 transition-opacity hover:opacity-80" />
+  
+  <Separator orientation="vertical" className="mr-2 h-4" />
+  
+  <div className="flex flex-1 items-center gap-2">
+    <h1 className="text-sm font-semibold text-foreground tracking-tight">
+      EVA Lite
+    </h1>
+    
+  </div>
+  
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild>
+      <div 
+        className="flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 cursor-pointer transition-all hover:bg-secondary/80 active:scale-95"
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.click()}
+      >
+        <div className="size-6 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground text-xs font-medium shadow-sm">
+          {firstLetter}
+        </div>
+        <span className="text-sm font-medium text-secondary-foreground hidden sm:inline max-w-[150px] truncate">
+          {businessName}
+        </span>
+      </div>
+    </DropdownMenuTrigger>
+    
+    <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuItem 
+        onClick={logout} 
+        className="cursor-pointer focus:bg-destructive/10 focus:text-destructive"
+      >
+        <LogOut className="w-4 h-4 mr-2" />
+        Logout
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</header>
 
-          <SidebarTrigger className="-ml-1" />
-
-          <Separator orientation="vertical" className="mr-2 h-4" />
-
-          <div className="flex flex-1 items-center gap-2">
-            <h1 className="text-sm font-medium text-foreground">
-              evaLite
-            </h1>
-          </div>
-
-          <DropdownMenu>
-
-            <DropdownMenuTrigger asChild>
-              <div className="flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 cursor-pointer">
-                <div className="size-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-medium">
-                  {firstLetter}
-                </div>
-                <span className="text-sm font-medium text-secondary-foreground hidden sm:inline">
-                  {businessName}
-                </span>
-              </div>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={logout} className="cursor-pointer">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-
-          </DropdownMenu>
-
-        </header>
-
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto bg-[#f1f1f1e1]">
           {children}
         </div>
 
