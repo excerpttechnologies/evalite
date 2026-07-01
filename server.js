@@ -45,6 +45,17 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'EVA Lite API running', timestamp: new Date() });
 });
 
+
+
+// Serve React/Vite build
+app.use(express.static(path.join(__dirname, "dist")));
+
+// React Routing
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
