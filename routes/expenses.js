@@ -77,6 +77,25 @@ router.put('/:id/restore', protect, async (req, res) => {
   }
 });
 
+
+
+
+// Get one latest record per employee — used for autofill dropdown
+router.get('/salary/employees', protect, async (req, res) => {
+  try {
+    const records = await Salary.aggregate([
+      { $match: { tenantId: req.tenantId, isDeleted: false } },
+      { $sort: { createdAt: -1 } },
+      { $group: { _id: '$employeeName', latest: { $first: '$$ROOT' } } },
+      { $sort: { _id: 1 } }
+    ]);
+    res.json({ success: true, employees: records.map(r => r.latest) });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
 // SALARY
 router.get('/salary', protect, async (req, res) => {
   try {
